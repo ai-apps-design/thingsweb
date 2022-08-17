@@ -1,1 +1,1 @@
-document.getElementById('box-1').style.display = 'none';
+//document.getElementById('box-1').style.display = 'none';
