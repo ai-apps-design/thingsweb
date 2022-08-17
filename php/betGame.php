@@ -22,16 +22,7 @@
 
 <body>
 
-  <div>
-    <!-- Dennis add href to "/" -->
-    <a href="/" class="btn btn-primary btn-large">
-      Home
-    </a>
-  </div>
-  <div>
-    <h1>Bet on Games</h1>
-  </div>
-  <?php
+<?php
   $servername = "10.0.0.36";
   $username = "dbadmin";
   $password = "g0gobig$";
@@ -43,7 +34,18 @@
   if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
   }
-  
+  ?>
+
+  <div>
+    <!-- Dennis add href to "/" -->
+    <a href="/" class="btn btn-primary btn-large">
+      Home
+    </a>
+  </div>
+  <div>
+    <h1>Bet on Games</h1>
+  </div>
+  <?php
   $sql = "SELECT id, username, email FROM users";
   $result = $conn->query($sql);
   
@@ -71,11 +73,8 @@
   }
   echo "</table>
         </div>";
-
-  $conn->close();
-
   ?>
-
+  
   <div class="container">
     <div class="row">
       <h3>Game 1</h3>
@@ -131,6 +130,9 @@
     </a>
 
   </div>
+  <?php
+  $conn->close();
+  ?>
   <script src="/js/myscript.js"> </script>
 </body>
 
