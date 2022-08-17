@@ -47,8 +47,8 @@
   $sql = "SELECT id, username, email FROM users";
   $result = $conn->query($sql);
   
-  echo "<div class=\"container\">"
-  echo "<table class=\"table\">
+  echo "<div class=\"container\">
+  <table class=\"table\">
   <tr>
   <th scope=\"col\">id</th>
   <th scope=\"col\">username</th>
@@ -69,8 +69,8 @@
   } else {
     echo "0 results";
   }
-  echo "</table>";
-  echo "</div>"
+  echo "</table>
+        </div>";
 
   $conn->close();
 
