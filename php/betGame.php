@@ -23,10 +23,10 @@
 <body>
 
 <?php
-  $servername = "10.0.0.36";
-  $username = "dbadmin";
-  $password = "g0gobig$";
-  $dbname = "users";
+  $servername = "localhost";
+  $username = "dbuser";
+  $password = "keeper123";
+  $dbname = "thingsweb_db";
   
   // Create connection
   $conn = new mysqli($servername, $username, $password, $dbname);
@@ -46,26 +46,28 @@
     <h1>Bet on Games</h1>
   </div>
   <?php
-  $sql = "SELECT id, username, email FROM users";
+  $sql = "SELECT id, name, password, balance FROM users";
   $result = $conn->query($sql);
   
   echo "<div class=\"container\">
   <table class=\"table\">
   <tr>
   <th scope=\"col\">id</th>
-  <th scope=\"col\">username</th>
-  <th scope=\"col\">email</th>
+  <th scope=\"col\">Name</th>
+  <th scope=\"col\">Password</th>
+  <th scope=\"col\">Balance</th>
   </tr>";
 
   if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-      //echo "id: " . $row["id"]. " - Username: " . $row["username"]. " email: " . $row["email"]. "<br>";
+      //echo "id: " . $row["id"]. " - Username: " . $row["name"]. " password: " . $row["password"] . " balance: " . $row["balance"] . "<br>";
 
       echo "<tr>";
       echo "<td>" . $row['id'] . "</td>";
-      echo "<td>" . $row['username'] . "</td>";
-      echo "<td>" . $row['email'] . "</td>";
+      echo "<td>" . $row['name'] . "</td>";
+      echo "<td>" . $row['password'] . "</td>";
+      echo "<td>" . $row['balance'] . "</td>";
       echo "</tr>";    
     }
   } else {
