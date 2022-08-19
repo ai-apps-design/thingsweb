@@ -1,3 +1,17 @@
+<?php
+// Initialize the session
+session_start();
+
+echo "<div> loggedin " . ($_SESSION["loggedin"] ? "true" : "false") . " id " . $_SESSION["id"] . " username " . $_SESSION["username"] . "</div>";
+
+// Check if the user is logged in, if not then redirect him to login page
+if (!isset($_SESSION["loggedin"]) || !$_SESSION["loggedin"]) {
+  $login_path = "../login.php";
+  echo "rediretc to $login_path";
+  header("location: $login_path");
+  exit;
+}
+?>
 <html lang="en">
 
 <head>
@@ -10,24 +24,31 @@
   <!-- Dennis add favicon -->
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
   <!-- Dennis Replace with Bootstrap 5.0 CDN Bundle -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <!-- Dennis local styles is after loading Bootstrap -->
   <link rel="stylesheet" href="../css/styles.css">
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
-    integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
-    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
 </head>
 
 <body>
 
-<?php
+  <?php
+  // Initialize the session
+  session_start();
+
+  // Check if the user is logged in, if not then redirect him to login page
+  if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    $login_path = dir("../login.php");
+    header("location: $login_path");
+    exit;
+  }
+
   $servername = "localhost";
   $username = "dbuser";
   $password = "keeper123";
   $dbname = "thingsweb_db";
-  
+
   // Create connection
   $conn = new mysqli($servername, $username, $password, $dbname);
   // Check connection
@@ -48,7 +69,7 @@
   <?php
   $sql = "SELECT id, name, password, balance FROM users";
   $result = $conn->query($sql);
-  
+
   echo "<div class=\"container\">
   <table class=\"table\">
   <tr>
@@ -60,7 +81,7 @@
 
   if ($result->num_rows > 0) {
     // output data of each row
-    while($row = $result->fetch_assoc()) {
+    while ($row = $result->fetch_assoc()) {
       //echo "id: " . $row["id"]. " - Username: " . $row["name"]. " password: " . $row["password"] . " balance: " . $row["balance"] . "<br>";
 
       echo "<tr>";
@@ -68,7 +89,7 @@
       echo "<td>" . $row['name'] . "</td>";
       echo "<td>" . $row['password'] . "</td>";
       echo "<td>" . $row['balance'] . "</td>";
-      echo "</tr>";    
+      echo "</tr>";
     }
   } else {
     echo "0 results";
@@ -76,7 +97,7 @@
   echo "</table>
         </div>";
   ?>
-  
+
   <div class="container">
     <div class="row">
       <h3>Game 1</h3>
@@ -103,8 +124,7 @@
     <h6>Number of Tickets to Bet:</h6>
     <input type="number" id="replyNumber" min="0" data-bind="value:replyNumber" />
     <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-        aria-expanded="false">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
         Select Game
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -114,8 +134,7 @@
       </ul>
     </div>
     <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-        aria-expanded="false">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
         Select Team
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
