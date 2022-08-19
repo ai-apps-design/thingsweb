@@ -14,6 +14,26 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <!-- Dennis local styles is after loading Bootstrap -->
   <link rel="stylesheet" href="../css/styles.css">
+  <style>
+      .wrapper {
+          width: 360px;
+          padding: 20px;
+          
+          
+      }
+      
+      div {
+        
+        padding: 10px;
+
+
+      }
+      
+      
+    </style>
+  
+  
+  
 </head>
 
 <body>
@@ -32,20 +52,29 @@
 
   </div>
 
-  <div>
-    <h6>Number of Tickets to add:</h6>
-    <input type="number" id="replyNumber" min="0" data-bind="value:replyNumber" />
-
+  
+  
+  <div class="d-flex justify-content-center">
+  <div class ="wrapper">
+  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+    <div class="mb-3">
+      <label for="inputTix" class="form-label">Number of Tickets:</label>
+      <input type="number" name="tixAmt" class="form-control" id="replyNumber" min="0" data-bind="value:replyNumber" aria-describedby="tixNumber">
+      
+    </div>
+    <div class="mb-3 form-check">
+      <input type="checkbox" name="venmo" class="form-check-input" id="exampleCheck1">
+      <label class="form-check-label" for="check1">I have already Venmo'd @Edward-Sheu-GSW</label>
+    </div>
+    <button type="submit" href = "../tixAdded.php" class="btn btn-primary">Submit</button>
+  </form>
   </div>
-
-  <div>
-    <a class="btn btn-primary btn-large">
-      Charge me!
-    </a>
-    <a class="btn btn-primary btn-large">
-      I will Venmo @Edward-Sheu-GSW
-    </a>
   </div>
+  
+  
+  
+  
+  
   <script src="/js/myscript.js"> </script>
 </body>
 
