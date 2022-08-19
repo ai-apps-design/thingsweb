@@ -77,7 +77,7 @@ if (empty($username_err) && empty($password_err)) {
     $result = $conn->query($sql);
     echo "Result num_rows : " . $result->num_rows;
 
-    if (($result->num_rows) == 1) {
+    if ($result->num_rows == 1) {
         // output data of each row
         $row = $result->fetch_assoc();
         echo "id: " . $row["id"] . " - Name: " . $row["username"] . " " . $row["password"] . "<br>";

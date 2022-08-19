@@ -17,8 +17,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $username_err = "Username can only contain letters, numbers, and underscores.";
     } else {
         // Prepare a select statement
-        $sql = "SELECT id FROM users WHERE username = ?";
+        $sql = "SELECT id FROM users WHERE username = \"" . "\"";
+        $result = $conn->query($sql);
+        echo "Result num_rows : " . $result->num_rows;
 
+        if ($result->num_rows == 1) {
+            // output data of each row
+            $row = $result->fetch_assoc();
+            echo "id: " . $row["id"] . " - Name: " . $row["username"] . " " . $row["password"] . "<br>";
+            $id  = $row["id"];
+            $username = $row["username"];
+            $password = $row["password"];
+            echo "<div>db result : id: " . $id . " username : " . $username . " password : " . $password . "</div>";
+        } else {
+            $login_error  = "User : " . $input_username . "does not exist!";
+            header("HTTP/1.1 500 Internal Server Error");
+            exit;
+        }
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "s", $param_username);

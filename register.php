@@ -17,31 +17,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $username_err = "Username can only contain letters, numbers, and underscores.";
     } else {
         // Prepare a select statement
-        $sql = "SELECT id FROM users WHERE username = ?";
+        //$sql = "SELECT id FROM users WHERE username = ?";
+        $sql = "SELECT id FROM users WHERE username = \"" . trim($_POST["username"]) . "\"";
+        echo "<div>SQL Query : " . $sql;
+        $result = $conn->query($sql);
+        echo "<div>Result num_rows : " . $result->num_rows . "</div>";
 
-        if ($stmt = mysqli_prepare($link, $sql)) {
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_username);
-
-            // Set parameters
-            $param_username = trim($_POST["username"]);
-
-            // Attempt to execute the prepared statement
-            if (mysqli_stmt_execute($stmt)) {
-                /* store result */
-                mysqli_stmt_store_result($stmt);
-
-                if (mysqli_stmt_num_rows($stmt) == 1) {
-                    $username_err = "This username is already taken.";
-                } else {
-                    $username = trim($_POST["username"]);
-                }
-            } else {
-                echo "Oops! Something went wrong. Please try again later.";
-            }
-
-            // Close statement
-            mysqli_stmt_close($stmt);
+        if ($result->num_rows == 0) {
+            $username = trim($_POST["username"]);
+        } else {
+            $username_err = "This username is already taken.";
         }
     }
 
@@ -68,14 +53,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($username_err) && empty($password_err) && empty($confirm_password_err)) {
         $balance = 0.00;
         // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password, balance) VALUES (?, ?, ?)";
+        //$sql = "INSERT INTO users (username, password, balance) VALUES (?, ?, ?)";
         // Prepare a select statement
         $sql = "INSERT INTO users (username, password, balance) VALUES (\"" . $username . "\",\"" . $password . "\"," . "0.00)";
         echo "<div>SQL query : " . $sql . "</div>";
 
         $result = $conn->query($sql);
         echo "<div>Result : " . $result . "</div>";
-        if ($result->num_rows == 1) {
+        if ($result == 1) {
             header("location: login.php");
         } else {
             echo "Oops! Something went wrong. Please try again later.";
