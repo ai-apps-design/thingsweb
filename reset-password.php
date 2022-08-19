@@ -40,9 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check input errors before updating the database
     if (empty($new_password_err) && empty($confirm_password_err)) {
         // Prepare an update statement
-        $sql = "UPDATE users SET password = ? WHERE id = ?";
         $sql = "UPDATE users SET password = \"" . $new_password . "\" WHERE id = " . $_SESSION["id"];
-        echo "<div>SQL query : " . $sql . "</div>";
+        //echo "<div>SQL query : " . $sql . "</div>";
 
         $result = $conn->query($sql);
         echo "<div>Result : " . $result . "</div>";

@@ -1,6 +1,5 @@
 <?php
 // Include config file
-//require_once "config.php";
 require_once __DIR__ . "/config.php";
 
 // Define variables and initialize with empty values
@@ -17,11 +16,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $username_err = "Username can only contain letters, numbers, and underscores.";
     } else {
         // Prepare a select statement
-        //$sql = "SELECT id FROM users WHERE username = ?";
         $sql = "SELECT id FROM users WHERE username = \"" . trim($_POST["username"]) . "\"";
-        echo "<div>SQL Query : " . $sql;
+        //echo "<div>SQL Query : " . $sql;
         $result = $conn->query($sql);
-        echo "<div>Result num_rows : " . $result->num_rows . "</div>";
+        //echo "<div>Result num_rows : " . $result->num_rows . "</div>";
 
         if ($result->num_rows == 0) {
             $username = trim($_POST["username"]);
@@ -51,45 +49,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Check input errors before inserting in database
     if (empty($username_err) && empty($password_err) && empty($confirm_password_err)) {
-        $balance = 0.00;
-        // Prepare an insert statement
-        //$sql = "INSERT INTO users (username, password, balance) VALUES (?, ?, ?)";
         // Prepare a select statement
         $sql = "INSERT INTO users (username, password, balance) VALUES (\"" . $username . "\",\"" . $password . "\"," . "0.00)";
-        echo "<div>SQL query : " . $sql . "</div>";
+        //echo "<div>SQL query : " . $sql . "</div>";
 
         $result = $conn->query($sql);
-        echo "<div>Result : " . $result . "</div>";
+        //echo "<div>Result : " . $result . "</div>";
         if ($result == 1) {
             header("location: login.php");
         } else {
             echo "Oops! Something went wrong. Please try again later.";
         }
-        // if ($stmt = mysqli_prepare($link, $sql)) {
-        //     // Bind variables to the prepared statement as parameters
-        //     mysqli_stmt_bind_param($stmt, "sss", $param_username, $param_password, $param_balance);
-
-        //     // Set parameters
-        //     $param_username = $username;
-        //     //$param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-        //     $param_password = $password; // Creates a password hash
-        //     $param_balance = $balance;
-
-        //     // Attempt to execute the prepared statement
-        //     if (mysqli_stmt_execute($stmt)) {
-        //         // Redirect to login page
-        //         header("location: login.php");
-        //     } else {
-        //         echo "Oops! Something went wrong. Please try again later.";
-        //     }
-
-        //     // Close statement
-        //     mysqli_stmt_close($stmt);
-        // }
     }
 
     // Close connection
-    //mysqli_close($link);
     $conn->close();
 }
 ?>
