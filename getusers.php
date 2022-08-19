@@ -55,7 +55,7 @@
   </div class="mb-5">
 
   <?php
-  $sql = "SELECT id, name, password, balance FROM users";
+  $sql = "SELECT id, username, password, balance FROM users";
   $result = $conn->query($sql);
 
   echo "<div class=\"container\">
@@ -70,11 +70,11 @@
   if ($result->num_rows > 0) {
     // output data of each row
     while ($row = $result->fetch_assoc()) {
-      //echo "id: " . $row["id"]. " - Username: " . $row["name"]. " password: " . $row["password"] . " balance: " . $row["balance"] . "<br>";
+      //echo "id: " . $row["id"]. " - Username: " . $row["username"]. " password: " . $row["password"] . " balance: " . $row["balance"] . "<br>";
 
       echo "<tr>";
       echo "<td>" . $row['id'] . "</td>";
-      echo "<td>" . $row['name'] . "</td>";
+      echo "<td>" . $row['username'] . "</td>";
       echo "<td>" . $row['password'] . "</td>";
       echo "<td>" . $row['balance'] . "</td>";
       echo "</tr>";
