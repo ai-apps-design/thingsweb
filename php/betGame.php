@@ -12,13 +12,14 @@ if (!isset($_SESSION["loggedin"]) || !$_SESSION["loggedin"]) {
   exit;
 }
 
-print "Selected Game : " . $selectedGame;
+// $selectedGame will not reset after refresh
+//print "Selected Game : " . $selectedGame;
 $select_game_id = 0;
 // Better:
 if (isset($_POST) && array_key_exists('setgame', $_POST)) { // check if $_POST exists AND if it holds a key `foo`
   $select_game_id = $_POST['setgame'];
 }
-print "Selected select_game_id : " . $select_game_id;
+//print "Selected select_game_id : " . $select_game_id;
 
 $selected_teams = [0, 1];
 
@@ -40,18 +41,20 @@ function getMembersByTeamID($conn, $team_id)
 {
   // select `Team ID`, member1, member2, member3, member4, member5 from Teams;
   $sql = "select `Team ID`, member1, member2, member3, member4, member5 from Teams where `Team ID` = " . $team_id . "";
-  print "Query team " . $sql;
+  //print "<div>Query team " . $sql . '</div>';
   $result = $conn->query($sql);
   if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
       //echo "id: " . $row["id"]. " - Username: " . $row["name"]. " password: " . $row["password"] . " balance: " . $row["balance"] . "<br>";
-      $team_id = ['Team ID'];
+      $team_id      = $row['Team ID'];
       $team_member1 = $row['member1'];
       $team_member2 = $row['member2'];
       $team_member3 = $row['member3'];
       $team_member4 = $row['member4'];
       $team_member5 = $row['member5'];
-      echo '  <h4> Team' . $team_id . '</h4>';
+
+      echo '<div class="col">';
+      echo '  <h4> Team ' . $team_id . '</h4>';
       echo '  <p> ' . $team_member1 . ' </p>';
       echo '  <p> ' . $team_member2 . ' </p>';
       echo '  <p> ' . $team_member3 . ' </p>';
@@ -91,7 +94,7 @@ function getMembersByTeamID($conn, $team_id)
 
   <div class="game">
     <!-- Dennis add href to "/" -->
-    <a href="/" class="btn btn-primary btn-large">
+    <a href="../welcome.php" class="btn btn-primary btn-large">
       Home
     </a>
   </div>
@@ -170,82 +173,24 @@ function getMembersByTeamID($conn, $team_id)
     } else {
       echo "0 results";
     }
-
-    foreach ($games as $game) {
-      print "loop " . $game['Game ID'] . " " . $game['Team 1'] .  " " . $game['Team 2'] . " " . $game['Outcome'];
-      //echo '<li><a class="dropdown-item">Game ' . $game . '</a></li>';
-    };
-
-    // // select `Team ID`, member1, member2, member3, member4, member5 from Teams;
-    // $sql = "select `Team ID`, member1, member2, member3, member4, member5 from Teams";
-    // $result = $conn->query($sql);
-    // if ($result->num_rows > 0) {
-    //   // output data of each row
-    //   while ($row = $result->fetch_assoc()) {
-    //     //echo "id: " . $row["id"]. " - Username: " . $row["name"]. " password: " . $row["password"] . " balance: " . $row["balance"] . "<br>";
-
-    //     echo "<tr>";
-    //     echo "<td>" . $row['id'] . "</td>";
-    //     echo "<td>" . $row['name'] . "</td>";
-    //     echo "<td>" . $row['password'] . "</td>";
-    //     echo "<td>" . $row['balance'] . "</td>";
-    //     echo "</tr>";
-    //   }
-    // } else {
-    //   echo "0 results";
-    // }
     ?>
 
     <div class="game row">
       <?php
       if (!empty($select_game_id)) {
         //echo "Game $select_game_id";
-        echo "<h3>Game " . $select_game_id . "</h3>";
-        echo "<h3>Game data " . $$games[$select_game_id] . "</h3>";
-        echo "<h3>Game team 1 " . $$games[$select_game_id]['Team 1'] . "</h3>";
-        echo "<h3>Game team 2 " . $$games[$select_game_id]['Team 2'] . "</h3>";
+        echo '<div class="container">';
+        echo '  <div class="row">';
+        echo "  <h3>Game " . $select_game_id . "</h3>";
+        //echo "<h3>Game data " . $$games[$select_game_id] . "</h3>";
+        //echo "<h3>Game team 1 " . $$games[$select_game_id]['Team 1'] . "</h3>";
+        //echo "<h3>Game team 2 " . $$games[$select_game_id]['Team 2'] . "</h3>";
 
         getMembersByTeamID($conn, $games[$select_game_id]['Team 1']);
         getMembersByTeamID($conn, $games[$select_game_id]['Team 2']);
-        // // select `Team ID`, member1, member2, member3, member4, member5 from Teams;
-        // $sql = "select `Team ID`, member1, member2, member3, member4, member5 from Teams where `Team ID` = " . $select_team1_id . "";
-        // print "Query team " . $sql;
-        // $result = $conn->query($sql);
-        // if ($result->num_rows > 0) {
-        //   $team1_id = ['Team ID'];
-        //   $team1_member1 = ['member1'];
-        //   $team1_member2 = ['member2'];
-        //   $team1_member3 = ['member3'];
-        //   $team1_member4 = ['member4'];
-        //   $team1_member5 = ['member5'];
-        //   echo '  <h4> Team' . $team1_id . '</h4>';
-        //   echo '  <p> ' . $team1_member1 . ' </p>';
-        //   echo '  <p> ' . $team1_member2 . ' </p>';
-        //   echo '  <p> ' . $team1_member3 . ' </p>';
-        //   echo '  <p> ' . $team1_member4 . ' </p>';
-        //   echo '  <p> ' . $team1_member5 . ' </p>';
-        //   echo '</div>';
-        // }
 
-        // // select `Team ID`, member1, member2, member3, member4, member5 from Teams;
-        // $sql = "select `Team ID`, member1, member2, member3, member4, member5 from Teams where `Team ID` = $select_team2_id";
-        // $result = $conn->query($sql);
-        // if ($result->num_rows > 0) {
-        //   $team2_id = ['Team ID'];
-        //   $team2_member1 = ['member1'];
-        //   $team2_member2 = ['member2'];
-        //   $team2_member3 = ['member3'];
-        //   $team2_member4 = ['member4'];
-        //   $team2_member5 = ['member5'];
-        //   echo '<div class="col">';
-        //   echo '  <h4> Team' . $team2_id . '</h4>';
-        //   echo '  <p> ' . $team2_member1 . ' </p>';
-        //   echo '  <p> ' . $team2_member2 . ' </p>';
-        //   echo '  <p> ' . $team2_member3 . ' </p>';
-        //   echo '  <p> ' . $team2_member4 . ' </p>';
-        //   echo '  <p> ' . $team2_member5 . ' </p>';
-        //   echo '</div>';
-        // }
+        echo ' </div>';
+        echo '</div>';
       } else {
         echo "<h3>No Game Selected</h3>";
       }
