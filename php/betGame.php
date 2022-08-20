@@ -229,95 +229,43 @@ if (!isset($_SESSION["loggedin"]) || !$_SESSION["loggedin"]) {
     <h6>Number of Tickets to Bet:</h6>
     <input type="number" id="replyNumber" min="0" data-bind="value:replyNumber" />
     <?php
-    foreach ($games as $game) {
-      print "<div>loop " . $game['Game ID'] . " " . $game['Team 1'] .  " " . $game['Team 2'] . " " . $game['Outcome'] . "</div>";
-      //echo '<li><a class="dropdown-item">Game ' . $game . '</a></li>';
-    };
-    ?>
-    <div class="row justify-content-md-center">
-      <div class="dropdown" style="width: 480px">
-        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
-          <div class="row">
-            <div class="col">
-              <label for="select-game" class="btn btn-secondary" class="label">Game List:</label>
-            </div>
-            <div class="col">
-              <select name="select-game" id="select-game" class="form-select" aria-label="Color select example">
-                <?php
-                foreach ($games as $game) {
-                  echo '<option value="' . $game['Game ID'] . " " . ($game['Game ID'] == $select_game_id) ? ' selected' : "" . '> Game ' . $game['Game ID'] . "</option>";
-                }
-                ?>
-              </select>
-            </div>
-            <div class="col">
-              <button type="submit" class="btn btn-primary">Select</button>
-            </div>
-          </div>
-      </div>
-      </form>
-    </div>
-
-  </div>
-  <div class="dropdown">
-    <!--
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-        Select Game
-      </button>
-      -->
-    <!-- <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"> -->
-    <?php
     // foreach ($games as $game) {
-    //   //print "loop " . $game['Game ID'];
-    //   echo '<li><a class="dropdown-item">Game ' . $game['Game ID'] . '</a></li>';
-    // }
-    echo '<label for="gameid" class="btn btn-secondary dropdown-toggle" >Select Game:</label>';
-    echo '<select name=\"gameid\" id=\"gameid\" class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >';
-    foreach ($games as $game) {
-      echo "<option value=\"" . $game['Game ID'] . " " . ($game['Game ID'] == $select_game_id) ? ' selected="selected"' : "" . " class=\"dropdown-item\" </option>";
-    }
-    echo "</select>";
-    ?>
-    <!-- </ul> -->
-  </div>
-  <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      Select Game
-    </button>
-    <?php
-    echo '<label for="gameid">Select Game:</label>';
-    echo "<select name=\"gameid\" id=\"gameid\">";
-    foreach ($games as $game) {
-      echo "<option value=\"" . $game['Game ID'] . " " . ($game['Game ID'] == $select_game_id) ? ' selected="selected"' : "" . "</option>";
-    }
-    echo "</select>";
+    //   print "<div>loop 2 :" . $game['Game ID'] . " " . $game['Team 1'] .  " " . $game['Team 2'] . " " . $game['Outcome'] . "</div>";
+    // };
+
+    // print '<select name="print-game" id="print-game" class="form-select" aria-label="Game select example">';
+
+    // foreach ($games as $game) {
+    //   print '<option value=\"' . $game['Game ID'] . ' ';
+    //   print $game["Game ID"] == $select_game_id ? 'selected' : '' . '>';
+    //   print 'Game ' . $game['Game ID'] . "</option>";
+    // };
+    // print '</select>';
     ?>
   </div>
-  <div class="container" style="width: 240px">
-    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
-      <div class="row">
-        <div class="col">
-          <div>
-            <label for="select-game">Select Game:</label>
+  <div class="row justify-content-md-center">
+    <div class="dropdown" style="width: 480px">
+      <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
+        <div class="row">
+          <div class="col">
+            <label for="select-game" class="btn btn-secondary" class="label">Game List:</label>
+          </div>
+          <div class="col">
             <select name="select-game" id="select-game" class="form-select" aria-label="Color select example">
               <?php
               foreach ($games as $game) {
-                echo "<option value=\"" . $game['Game ID'] . " " . ($game['Game ID'] == $select_game_id) ? ' selected' : "" . "</option>";
+                echo '<option value=\"' . $game['Game ID'] . ' ';
+                echo $game["Game ID"] == $select_game_id ? 'selected' : '' . '>';
+                echo 'Game ' . $game['Game ID'] . "</option>";
               }
               ?>
-              <!-- <option value="1">Game 1</option>
-                <option value="2" selected>Game 2</option>
-                <option value="3">Game 3</option>
-                -->
             </select>
           </div>
-        </div>
-        <div class="col">
-          <div>
-            <button type="submit">Select</button>
+          <div class="col">
+            <button type="submit" class="btn btn-primary">Select</button>
           </div>
         </div>
-      </div>
+    </div>
     </form>
   </div>
   <div class="container" style="width: 240px">
