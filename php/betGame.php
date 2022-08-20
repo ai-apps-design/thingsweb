@@ -114,35 +114,6 @@ function getMembersByTeamID($conn, $team_id)
     die("Connection failed: " . $conn->connect_error);
   }
 
-  // $sql = "SELECT id, name, password, balance FROM users";
-  // $result = $conn->query($sql);
-
-  // echo "<div class=\"container\">
-  // <table class=\"table\">
-  // <tr>
-  // <th scope=\"col\">id</th>
-  // <th scope=\"col\">Name</th>
-  // <th scope=\"col\">Password</th>
-  // <th scope=\"col\">Balance</th>
-  // </tr>";
-
-  // if ($result->num_rows > 0) {
-  //   // output data of each row
-  //   while ($row = $result->fetch_assoc()) {
-  //     //echo "id: " . $row["id"]. " - Username: " . $row["name"]. " password: " . $row["password"] . " balance: " . $row["balance"] . "<br>";
-
-  //     echo "<tr>";
-  //     echo "<td>" . $row['id'] . "</td>";
-  //     echo "<td>" . $row['name'] . "</td>";
-  //     echo "<td>" . $row['password'] . "</td>";
-  //     echo "<td>" . $row['balance'] . "</td>";
-  //     echo "</tr>";
-  //   }
-  // } else {
-  //   echo "0 results";
-  // }
-  // echo "</table>
-  //       </div>";
   ?>
 
   <div class="container">
@@ -160,15 +131,6 @@ function getMembersByTeamID($conn, $team_id)
         $games_data['Team 2'] = $row['Team 2'];
         $games_data['Outcome'] =  $row['Outcome'];
         $games[$row['Game ID']] = $games_data;
-
-        // echo "<div> Game ID " . $games['Game ID'] . "</div>";
-        // echo "<div> games " . $games['Team 1'] . "</div>";
-        // echo "<div> games" . $games['Team 2'] . "</div>";
-        // echo "<div> games" . $games['Outcome'] . "</div>";
-        // echo "<div>" . $row['Game ID'] . "</div>";
-        // echo "<div>" . $row['Team 1'] . "</div>";
-        // echo "<div>" . $row['Team 2'] . "</div>";
-        // echo "<div>" . $row['Outcome'] . "</div>";
       }
     } else {
       echo "0 results";
@@ -215,26 +177,23 @@ function getMembersByTeamID($conn, $team_id)
     // print '</select>';
     ?>
   </div>
-  <div class="row justify-content-md-center">
-    <div class="dropdown" style="width: 480px">
+  <div class="row game justify-content-md-center">
+    <div class="dropdown" style="width: 360px">
       <?php
-      $a = ''; // default value
-      // if(!(empty($_POST['foo']))) {
+      // $a = ''; // default value
+      // // if(!(empty($_POST['foo']))) {
 
-      // Better:
-      if (isset($_POST) && array_key_exists('setgame', $_POST)) { // check if $_POST exists AND if it holds a key `foo`
-        $a = $_POST['setgame'];
-      }
+      // // Better:
+      // if (isset($_POST) && array_key_exists('setgame', $_POST)) { // check if $_POST exists AND if it holds a key `foo`
+      //   $a = $_POST['setgame'];
+      // }
       ?>
-      <h1><?php echo "Hello " . $a ?></h1>
+      <!-- <h1><?php /* echo "Hello " . $a */ ?></h1>  -->
       <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
         <div class="row">
-          <div class="col">
-            <label for="setgame" class="btn" class="label">Game List</label>
-          </div>
-          <div class="col-5">
+          <div class="col-8">
             <select name="setgame" id="setgame" class="form-select" aria-label="Game select">
-              <option value="">Choose a game</option>
+              <option value="">Select Game</option>
               <?php
               foreach ($games as $game) {
                 echo '<option value="' . $game['Game ID'] . '" ';
@@ -251,93 +210,40 @@ function getMembersByTeamID($conn, $team_id)
     </div>
     </form>
   </div>
-  <?php
-  if (isset($_POST['selGameButton'])) {
-    echo "This is Select Game ";
-    $selectedGame = (int)filter_input(INPUT_POST, 'setgame', FILTER_SANITIZE_ENCODED);
-    print "Submit selected Game : " .  $selectedGame;
-    $_SESSION["selectedGame"] =  $selectedGame;
-    $select_game_id = $selectedGame;
-  }
-  ?>
-  <?php
-  $game = (int)filter_input(INPUT_POST, 'setgame', FILTER_SANITIZE_ENCODED);
-  ?>
-  <?php if ($ga) : ?>
-    <p>You selected <?php echo (int)$selectedGame ?></span></p>
-  <?php else : ?>
-    <p>You did not select any game</p>
-  <?php endif ?>
+  <div class="row game justify-content-md-center">
+    <div class="dropdown" style="width: 360px">
+      <?php
+      // $a = ''; // default value
+      // // if(!(empty($_POST['foo']))) {
 
-  <div class="container" style="width: 240px">
-    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
-      <div>
-        <label for="color" class="label">Background Color:</label>
-        <select class="form-select" aria-label="Color select example" name="color" id="color">
-          <option value="">--- Choose a color ---</option>
-          <option value="red">Red</option>
-          <option value="green" selected>Green</option>
-          <option value="blue">Blue</option>
-        </select>
-      </div>
-      <div>
-        <button type="submit" name="placebtn">Select</button>
-      </div>
+      // // Better:
+      // if (isset($_POST) && array_key_exists('setgame', $_POST)) { // check if $_POST exists AND if it holds a key `foo`
+      //   $a = $_POST['setgame'];
+      // }
+      ?>
+      <!-- <h1><?php /* echo "Hello " . $a */ ?></h1>  -->
+      <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
+        <div class="row">
+          <div class="col-8">
+            <select name="setgame" id="setgame" class="form-select" aria-label="Game select">
+              <option value="">Select Team</option>
+              <?php
+              foreach ($games as $game) {
+                echo '<option value="' . $game['Game ID'] . '" ';
+                echo $game["Game ID"] == $selectedGame ? 'selected' : '' . '>';
+                echo 'Game ' . $game['Game ID'] . "</option>";
+              }
+              ?>
+            </select>
+          </div>
+          <div class="col">
+            <button type="submit" name="selGameButton" class="btn btn-primary">Select</button>
+          </div>
+        </div>
+    </div>
     </form>
   </div>
-  <?php
-  $color = filter_input(INPUT_POST, 'color', FILTER_SANITIZE_ENCODED);
-  ?>
-  <?php if ($color) : ?>
-    <p>You selected <span style="color:<?php echo $color ?>"><?php echo $color ?></span></p>
-    <p><a href="index.php">Back to the form</a></p>
-  <?php else : ?>
-    <p>You did not select any color</p>
-  <?php endif ?>
-
-
-  <?php
-  $places = [[5, "Place 5"], [6, "Place 6"], [7, "Place 7"]];
-  foreach ($places as $place) {
-    print "Place: " . $place[0] . " " . $place[1];
-  }
-  if (isset($_POST['pickplacebtn'])) {
-    echo "This is Place Pick Button that is selected";
-  }
-  ?>
-  <div class="container" style="width: 240px">
-    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
-      <div>
-        <label for="place" class="label">Places:</label>
-        <select class="form-select" aria-label="Place select example" name="place" id="place">
-          <option value="">--- Choose a place ---</option>
-          <option value="1">Place 1</option>
-          <option value="2">Place 2</option>
-          <option value="3">Place 3</option>
-          <?php
-          foreach ($places as $place) {
-            echo '<option value=\"' . $place[0];
-            echo $place[0] == $selected_place ? 'selected' : '' . '>';
-            echo $game[1] . "</option>";
-          }
-          ?>
-        </select>
-      </div>
-      <div>
-        <button type="submit" value="pickplacebtn">Select</button>
-      </div>
-    </form>
-  </div>
-  <?php
-  $pick_place = filter_input(INPUT_POST, 'place', FILTER_SANITIZE_ENCODED);
-  ?>
-  <?php if ($pick_place) : ?>
-    <p>You selected <?php echo $pick_place ?></p>
-  <?php else : ?>
-    <p>You did not select any color</p>
-  <?php endif ?>
-
-  <div>
+  <div class="game">
     <a href="/php/betPlaced.php" class="btn btn-primary btn-large">
       Place Bet
     </a>
