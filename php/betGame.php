@@ -14,12 +14,14 @@ if (isset($_SESSION["username"])) {
 
 // Check if the user is logged in, if not then redirect him to login page
 if (!isset($_SESSION["loggedin"]) || !$_SESSION["loggedin"]) {
-  $login_path = "../login.php";
-  echo "rediretc to $login_path";
-  header("location: $login_path");
+  // $login_path = "../login.php";
+  // echo "rediretc to $login_path";
+  // header("location: $login_path");
+  header("location: ../login.php");
   exit;
 }
 ?>
+
 <html lang="en">
 
 <head>
@@ -41,17 +43,16 @@ if (!isset($_SESSION["loggedin"]) || !$_SESSION["loggedin"]) {
 
 <body>
 
+  <div>
+    <!-- Dennis add href to "/" -->
+    <a href="/" class="btn btn-primary btn-large">
+      Home
+    </a>
+  </div>
+  <div>
+    <h1>Bet on Games</h1>
+  </div>
   <?php
-  // Initialize the session
-  //session_start();
-
-  // Check if the user is logged in, if not then redirect him to login page
-  if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-    $login_path = dir("../login.php");
-    header("location: $login_path");
-    exit;
-  }
-
   $servername = "45.33.106.65";
   $username = "dbuser";
   $password = "keeper123";
@@ -63,69 +64,133 @@ if (!isset($_SESSION["loggedin"]) || !$_SESSION["loggedin"]) {
   if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
   }
-  ?>
 
-  <div>
-    <!-- Dennis add href to "/" -->
-    <a href="/" class="btn btn-primary btn-large">
-      Home
-    </a>
-  </div>
-  <div>
-    <h1>Bet on Games</h1>
-  </div>
-  <?php
-  $sql = "SELECT id, name, password, balance FROM users";
-  $result = $conn->query($sql);
+  // $sql = "SELECT id, name, password, balance FROM users";
+  // $result = $conn->query($sql);
 
-  echo "<div class=\"container\">
-  <table class=\"table\">
-  <tr>
-  <th scope=\"col\">id</th>
-  <th scope=\"col\">Name</th>
-  <th scope=\"col\">Password</th>
-  <th scope=\"col\">Balance</th>
-  </tr>";
+  // echo "<div class=\"container\">
+  // <table class=\"table\">
+  // <tr>
+  // <th scope=\"col\">id</th>
+  // <th scope=\"col\">Name</th>
+  // <th scope=\"col\">Password</th>
+  // <th scope=\"col\">Balance</th>
+  // </tr>";
 
-  if ($result->num_rows > 0) {
-    // output data of each row
-    while ($row = $result->fetch_assoc()) {
-      //echo "id: " . $row["id"]. " - Username: " . $row["name"]. " password: " . $row["password"] . " balance: " . $row["balance"] . "<br>";
+  // if ($result->num_rows > 0) {
+  //   // output data of each row
+  //   while ($row = $result->fetch_assoc()) {
+  //     //echo "id: " . $row["id"]. " - Username: " . $row["name"]. " password: " . $row["password"] . " balance: " . $row["balance"] . "<br>";
 
-      echo "<tr>";
-      echo "<td>" . $row['id'] . "</td>";
-      echo "<td>" . $row['name'] . "</td>";
-      echo "<td>" . $row['password'] . "</td>";
-      echo "<td>" . $row['balance'] . "</td>";
-      echo "</tr>";
-    }
-  } else {
-    echo "0 results";
-  }
-  echo "</table>
-        </div>";
+  //     echo "<tr>";
+  //     echo "<td>" . $row['id'] . "</td>";
+  //     echo "<td>" . $row['name'] . "</td>";
+  //     echo "<td>" . $row['password'] . "</td>";
+  //     echo "<td>" . $row['balance'] . "</td>";
+  //     echo "</tr>";
+  //   }
+  // } else {
+  //   echo "0 results";
+  // }
+  // echo "</table>
+  //       </div>";
   ?>
 
   <div class="container">
-    <div class="row">
-      <h3>Game 1</h3>
-      <div class="col">
-        <h4> Team 1 </h4>
-        <p> Boaty Mc BoatFace </p>
-        <p> Boaty Mc BoatFace </p>
-        <p> Boaty Mc BoatFace </p>
-        <p> Boaty Mc BoatFace </p>
-        <p> Boaty Mc BoatFace </p>
-      </div>
-      <div class="col">
-        <h4> Team 2 </h4>
-        <p> Steph McFlurry </p>
-        <p> Steph McFlurry </p>
-        <p> Steph McFlurry </p>
-        <p> Steph McFlurry </p>
-        <p> Steph McFlurry </p>
-      </div>
+    <?php
+    //Query games
+    $sql = "select `Game ID`, `Team 1`, `Team 2`, Outcome from Games;";
+    $result = $conn->query($sql);
 
+    $select_game_id = $select_team1_id = $select_team2_id = "";
+
+    $games = [];
+    if ($result->num_rows > 0) {
+      // output data of each row
+      while ($row = $result->fetch_assoc()) {
+        $games_data['Game ID'] = $row['Game ID'];
+        $games_data['Team 1'] = $row['Team 1'];
+        $games_data['Team 2'] = $row['Team 2'];
+        $games_data['Outcome'] =  $row['Outcome'];
+        $games[$row['Game ID']] = $games_data;
+
+        echo "<div> Game ID " . $games['Game ID'] . "</div>";
+        echo "<div> games " . $games['Team 1'] . "</div>";
+        echo "<div> games" . $games['Team 2'] . "</div>";
+        echo "<div> games" . $games['Outcome'] . "</div>";
+        echo "<div>" . $row['Game ID'] . "</div>";
+        echo "<div>" . $row['Team 1'] . "</div>";
+        echo "<div>" . $row['Team 2'] . "</div>";
+        echo "<div>" . $row['Outcome'] . "</div>";
+      }
+    } else {
+      echo "0 results";
+    }
+
+    // select `Team ID`, member1, member2, member3, member4, member5 from Teams;
+    $sql = "select `Team ID`, member1, member2, member3, member4, member5 from Teams";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+      // output data of each row
+      while ($row = $result->fetch_assoc()) {
+        //echo "id: " . $row["id"]. " - Username: " . $row["name"]. " password: " . $row["password"] . " balance: " . $row["balance"] . "<br>";
+
+        echo "<tr>";
+        echo "<td>" . $row['id'] . "</td>";
+        echo "<td>" . $row['name'] . "</td>";
+        echo "<td>" . $row['password'] . "</td>";
+        echo "<td>" . $row['balance'] . "</td>";
+        echo "</tr>";
+      }
+    } else {
+      echo "0 results";
+    }
+    ?>
+
+    <div class="row">
+      <?php if (!empty($select_game_id)) {
+        echo "Game $games[$select_game_id]";
+        echo "<h3>Game $games[$select_game_id]</h3>";
+
+        // select `Team ID`, member1, member2, member3, member4, member5 from Teams;
+        $sql = "select `Team ID`, member1, member2, member3, member4, member5 from Teams where `Team ID` = $select_team1_id";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+          $team1_id = ['Team ID'];
+          $team1_member1 = ['member1'];
+          $team1_member2 = ['member2'];
+          $team1_member3 = ['member3'];
+          $team1_member4 = ['member4'];
+          $team1_member5 = ['member5'];
+          echo '  <h4> Team' . $team1_id . '</h4>';
+          echo '  <p> ' . $team1_member1 . ' </p>';
+          echo '  <p> ' . $team1_member2 . ' </p>';
+          echo '  <p> ' . $team1_member3 . ' </p>';
+          echo '  <p> ' . $team1_member4 . ' </p>';
+          echo '  <p> ' . $team1_member5 . ' </p>';
+          echo '</div>';
+        }
+
+        // select `Team ID`, member1, member2, member3, member4, member5 from Teams;
+        $sql = "select `Team ID`, member1, member2, member3, member4, member5 from Teams where `Team ID` = $select_team2_id";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+          $team2_id = ['Team ID'];
+          $team2_member1 = ['member1'];
+          $team2_member2 = ['member2'];
+          $team2_member3 = ['member3'];
+          $team2_member4 = ['member4'];
+          $team2_member5 = ['member5'];
+          echo '<div class="col">';
+          echo '  <h4> Team' . $team2_id . '</h4>';
+          echo '  <p> ' . $team2_member1 . ' </p>';
+          echo '  <p> ' . $team2_member2 . ' </p>';
+          echo '  <p> ' . $team2_member3 . ' </p>';
+          echo '  <p> ' . $team2_member4 . ' </p>';
+          echo '  <p> ' . $team2_member5 . ' </p>';
+          echo '</div>';
+        }
+      } ?>
     </div>
   </div>
   <div>
@@ -136,9 +201,13 @@ if (!isset($_SESSION["loggedin"]) || !$_SESSION["loggedin"]) {
         Select Game
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        <li><a class="dropdown-item" href="#">Game 1</a></li>
-        <li><a class="dropdown-item" href="#">Game 2</a></li>
-        <li><a class="dropdown-item" href="#">Game 3</a></li>
+        <?php if (!empty($select_game_id)) {
+          // $games[$row['Game ID']] = $games_data;
+          foreach ($games as $game) {
+            //print $game;
+            echo '<li><a class="dropdown-item">Game ' . $game . '</a></li>';
+          }
+        } ?>
       </ul>
     </div>
     <div class="dropdown">
@@ -154,10 +223,9 @@ if (!isset($_SESSION["loggedin"]) || !$_SESSION["loggedin"]) {
   </div>
 
   <div>
-    <a class="btn btn-primary btn-large">
+    <a href="/php/betPlaced.php" class="btn btn-primary btn-large">
       Place Bet
     </a>
-
   </div>
   <?php
   $conn->close();
