@@ -1,4 +1,13 @@
 <?php
+// Initialize the session
+session_start();
+
+// If not login, redirect to login
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    header("location: login.php");
+    exit;
+}
+
 $servername = "45.33.106.65";
 $dbusername = "dbuser";
 $dbuser_password = "keeper123";
@@ -9,15 +18,6 @@ $conn = new mysqli($servername, $dbusername, $dbuser_password, $dbname);
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-}
-
-// Initialize the session
-session_start();
-
-// Check if the user is already logged in, if yes then redirect him to welcome page
-if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-    header("location: welcome.php");
-    exit;
 }
 
 // Include config file
@@ -58,5 +58,3 @@ if ($result == 1) {
 
 // Close connection
 $conn->close();
-?>
-

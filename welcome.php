@@ -46,7 +46,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     </div>
     <div class="hero-unit">
         <!-- Dennis: add href to addTix -->
-        <a href="/html/addTix.php" class="btn btn-primary btn-large">
+        <a href="/php/addTix.php" class="btn btn-primary btn-large">
             Add Tickets
         </a>
     </div>

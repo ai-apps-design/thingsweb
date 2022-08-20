@@ -2,7 +2,15 @@
 // Initialize the session
 session_start();
 
-echo "<div> loggedin " . ($_SESSION["loggedin"] ? "true" : "false") . " id " . $_SESSION["id"] . " username " . $_SESSION["username"] . "</div>";
+if (isset($_SESSION["loggedin"])) {
+  echo "<div>loggedin " . $_SESSION["loggedin"] ? "true" : "false" . "</div>";
+}
+if (isset($_SESSION["id"])) {
+  echo "<div>id " . $_SESSION["id"] . "</div>";
+}
+if (isset($_SESSION["username"])) {
+  echo "<div>username " . $_SESSION["username"] . "</div>";
+}
 
 // Check if the user is logged in, if not then redirect him to login page
 if (!isset($_SESSION["loggedin"]) || !$_SESSION["loggedin"]) {
@@ -35,7 +43,7 @@ if (!isset($_SESSION["loggedin"]) || !$_SESSION["loggedin"]) {
 
   <?php
   // Initialize the session
-  session_start();
+  //session_start();
 
   // Check if the user is logged in, if not then redirect him to login page
   if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
@@ -44,7 +52,7 @@ if (!isset($_SESSION["loggedin"]) || !$_SESSION["loggedin"]) {
     exit;
   }
 
-  $servername = "localhost";
+  $servername = "45.33.106.65";
   $username = "dbuser";
   $password = "keeper123";
   $dbname = "thingsweb_db";

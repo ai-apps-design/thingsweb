@@ -1,4 +1,12 @@
 <?php
+// Initialize the session
+session_start();
+
+// Check if the user is already logged in, if yes then redirect him to welcome page
+if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+    header("location: welcome.php");
+}
+
 $servername = "45.33.106.65";
 $dbusername = "dbuser";
 $dbuser_password = "keeper123";
@@ -9,15 +17,6 @@ $conn = new mysqli($servername, $dbusername, $dbuser_password, $dbname);
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-}
-
-// Initialize the session
-session_start();
-
-// Check if the user is already logged in, if yes then redirect him to welcome page
-if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-    header("location: welcome.php");
-    exit;
 }
 
 // Include config file
@@ -141,22 +140,23 @@ $conn->close();
         .wrapper {
             width: 360px;
             padding: 20px;
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
-    <div class="wrapper">
-        <h2>Login</h2>
-        <p>Please fill in your credentials to login.</p>
-
-        <?php
-        if (!empty($login_err)) {
-            echo '<div class="alert alert-danger">' . $login_err . '</div>';
-        }
-        ?>
+    <div class="d-flex justify-content-center">
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <h2>Login</h2>
+            <p>Please fill in your credentials to login.</p>
+            <?php
+            if (!empty($login_err)) {
+                echo '<div class="alert alert-danger">' . $login_err . '</div>';
+            }
+            ?>
+
             <div class="form-group">
                 <label>Username</label>
                 <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
